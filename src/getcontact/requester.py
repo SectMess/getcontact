@@ -56,7 +56,7 @@ class Requester:
         return json.dumps(data).replace(" ", "").replace("~", " ")
 
     def _send_post(self, url, data):
-        Log.d("Call _send_post with url:", url, "data:", data)
+        Log.d("Call _send_post with url:", url, "data:", data, "headers:")
         response = requests.post(url, data=data, headers=self.headers)
         self.update_timestamp()
         return self._parse_response(response)
@@ -71,18 +71,18 @@ class Requester:
         return self._send_post(url, data)
 
     def _parse_response(self, response):
-        Log.d("Call _parse_response with response:", response.text)
+        # Log.d("Call _parse_response with response:", response.text)
 
         if response.status_code == 200:
             return True, response.json()["data"]
         if response.status_code == 201:
             return True, response.json()
 
-        Log.d("Not correct answer from server.")
+        # Log.d("Not correct answer from server.")
         response = response.json()
         if "data" in response.keys():
             response = response["data"]
-            Log.d("Response: ", response)
+            # Log.d("Response: ", response)
 
             response = json.loads(self.cipher.decrypt_AES_b64(response))
             Log.d("Response decrypted: ", response)
@@ -111,6 +111,8 @@ class Requester:
         return False, {}
 
     def send_req_to_the_server(self, url, payload, no_encryption=False):
+        print("url", url)
+        print("payload", payload)
         payload = self.prepare_payload(payload)
         self.headers["X-Req-Signature"] = self.cipher.create_signature(
             payload, self.timestamp)

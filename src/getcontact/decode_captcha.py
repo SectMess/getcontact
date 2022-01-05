@@ -39,15 +39,20 @@ class CaptchaDecode:
     def decrypt(path):
         try:
             frame = cv2.imread(path)
+
             hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
             mask = cv2.inRange(hsv, np.array([30, 120, 0]),
                                np.array([255, 255, 255]))
+            #cv2.imshow("captcha", mask)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
             text = pytesseract.image_to_string(
                 mask,
                 config=f'--psm 8 tessedit_char_whitelist={string.ascii_letters + string.digits}'
             )
             text = re.sub("[^A-Za-z0-9]", "", text)
+            print("Text decoded", text)
         except Exception as e:
             print(e)
             return ''

@@ -30,7 +30,7 @@ class Config:
     DEVICE_ID = "8edbe110a4079830"
 
     # Default values
-    COUNTRY = "RU"
+    COUNTRY = "IND"
     HMAC_KEY = "2Wq7)qkX~cp7)H|n_tc&o+:G_USN3/-uIi~>M+c ;Oq]E{t9)RC_5|lhAA_Qq%_4"
     MOD_EXP = 900719925481
 
